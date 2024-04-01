@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Seeds manager</string>
+    <string name="String_must_be_written_error">Поля повинні бути заповнені</string>
+    <string name="login_or_password_wrong_error">Не вірно введено логін або пароль</string>
+    <string name="edittext_not_written_error">Ви не ввели потрібні дані</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="password">Password</string>
+    <string name="dob">DOB</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="submit">Зареєструватись</string>
+    <string name="dd_mm_yyyy">dd.MM.yyyy</string>
+    <string name="passwords_not_identical_error">Пароль не співпадає</string>
+    <string name="regist">Реєстрація</string>
+    <string name="login_">Логін</string>
+    <string name="password_">Пароль</string>
+    <string name="login_two_dot">Логін:</string>
+    <string name="password__">Пароль</string>
+    <string name="vhid">Вхід</string>
 </resources>
