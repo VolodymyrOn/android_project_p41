@@ -19,4 +19,7 @@
     <string name="login_two_dot">Логін:</string>
     <string name="password__">Пароль</string>
     <string name="vhid">Вхід</string>
+    <string name="dovid">Довідник</string>
+    <string name="exit">Вийти</string>
+    <string name="menegment">Менеджмент</string>
 </resources>

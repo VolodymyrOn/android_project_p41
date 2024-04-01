@@ -5,22 +5,52 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_menu)
         val button=findViewById<Button>(R.id.button)
-        val button2=findViewById<Button>(R.id.button2)
-        val buttonAdd=findViewById<Button>(R.id.buttonAdd)
+        val buttonInfo=findViewById<Button>(R.id.buttonInfo)
+        val IVProfile=findViewById<ImageView>(R.id.imageView)
+        val buttonManager=findViewById<Button>(R.id.buttonManger)
+        val textname=findViewById<TextView>(R.id.textViewName)
+        val textsurname=findViewById<TextView>(R.id.textViewSurname)
+        val textDOB=findViewById<TextView>(R.id.textViewDOB)
         val sharedPreferences = getSharedPreferences(Const.MY_PREF, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
+
+        val name=sharedPreferences.getString(Const.NAME, "")
+        val surname=sharedPreferences.getString(Const.SURNAME, "")
+        val dob=sharedPreferences.getString(Const.DOB, "")
+
+        textname.text=name
+        textsurname.text=surname
+        textDOB.text=dob
+
         button.setOnClickListener{
             val intent = Intent(this, LoginActivity::class.java)
             editor.putString(Const.IS_AUTH, false.toString())
             editor.apply()
             startActivity(intent)
             finish()
+        }
+
+        buttonInfo.setOnClickListener{
+            val intent = Intent(this, SeedsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        buttonManager.setOnClickListener{
+            val intent = Intent(this, SeedsInfoActivity::class.java)
+            startActivity(intent)
+        }
+
+        IVProfile.setOnClickListener{
+            val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
         }
     }
 }
