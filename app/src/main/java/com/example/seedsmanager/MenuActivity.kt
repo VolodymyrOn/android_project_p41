@@ -2,11 +2,14 @@ package com.example.seedsmanager
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,6 +28,18 @@ class MenuActivity : AppCompatActivity() {
         val name=sharedPreferences.getString(Const.NAME, "")
         val surname=sharedPreferences.getString(Const.SURNAME, "")
         val dob=sharedPreferences.getString(Const.DOB, "")
+
+        val encodedImage = sharedPreferences.getString("image", "")
+        if (!encodedImage.isNullOrEmpty()) {
+            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show()
+            val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
+            IVProfile.setImageBitmap(
+                BitmapFactory.decodeByteArray(
+                    decodedString,
+                    0,
+                    decodedString.size
+                )
+            )}
 
         textname.text=name
         textsurname.text=surname
@@ -51,6 +66,7 @@ class MenuActivity : AppCompatActivity() {
         IVProfile.setOnClickListener{
             val intent = Intent(this, ProfileActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
 }
