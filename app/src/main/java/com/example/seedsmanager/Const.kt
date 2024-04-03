@@ -9,5 +9,6 @@ object Const {
     const val SURNAME="Surname"
     const val EMAIL="Email"
     const val DOB="DOB"
+    const val IMAGE="image"
 
 }

@@ -9,7 +9,6 @@ import android.util.Base64
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 
 class MenuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +28,8 @@ class MenuActivity : AppCompatActivity() {
         val surname=sharedPreferences.getString(Const.SURNAME, "")
         val dob=sharedPreferences.getString(Const.DOB, "")
 
-        val encodedImage = sharedPreferences.getString("image", "")
+        val encodedImage = sharedPreferences.getString(Const.IMAGE, "")
         if (!encodedImage.isNullOrEmpty()) {
-            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show()
             val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
             IVProfile.setImageBitmap(
                 BitmapFactory.decodeByteArray(
@@ -59,7 +57,7 @@ class MenuActivity : AppCompatActivity() {
         }
 
         buttonManager.setOnClickListener{
-            val intent = Intent(this, SeedsInfoActivity::class.java)
+            val intent = Intent(this, SeedsManagerActivity::class.java)
             startActivity(intent)
         }
 

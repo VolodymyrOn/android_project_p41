@@ -1,5 +1,6 @@
 package com.example.seedsmanager
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
@@ -18,7 +19,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import kotlinx.coroutines.CoroutineStart
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -29,7 +29,6 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.UUID
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 @Suppress("DEPRECATION")
 class ProfileActivity : AppCompatActivity() {
@@ -46,10 +45,9 @@ class ProfileActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.buttonSubmit)
         val sharedPreferences = getSharedPreferences(Const.MY_PREF, Context.MODE_PRIVATE)
         val editor = sharedPreferences.edit()
-        IV = findViewById<ImageView>(R.id.imageView)
-        val encodedImage = sharedPreferences.getString("image", "")
+        IV = findViewById(R.id.imageView)
+        val encodedImage = sharedPreferences.getString(Const.IMAGE, "")
         if (!encodedImage.isNullOrEmpty()) {
-            Toast.makeText(this, "1", Toast.LENGTH_SHORT).show()
             val decodedString: ByteArray = Base64.decode(encodedImage, Base64.DEFAULT)
             IV.setImageBitmap(
                 BitmapFactory.decodeByteArray(
@@ -121,7 +119,6 @@ class ProfileActivity : AppCompatActivity() {
         private val STORAGE_PERMISSION_REQUEST_CODE = 101
 
         private fun checkCameraPermission() {
-            // Перевіряємо, чи маємо дозвіл на використання камери
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED
             ) {
@@ -135,7 +132,6 @@ class ProfileActivity : AppCompatActivity() {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED
             ) {
-                // Якщо дозвіл не надано, запитуємо його
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
@@ -144,31 +140,33 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
+            @SuppressLint("QueryPermissionsNeeded")
             fun selectImage() {
                 checkCameraPermission()
-                val options = arrayOf<CharSequence>("Take Photo", "Choose from Gallery", "Cancel")
+                val options = arrayOf<CharSequence>(getString(R.string.take_photo_),
+                    getString(R.string.choose_from_gallery_), getString(R.string.cancel_))
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-                builder.setTitle("Add Photo!")
+                builder.setTitle(getString(R.string.add_photo))
                 builder.setItems(options) { dialog, item ->
                     when {
-                        options[item] == "Take Photo" -> {
+                        options[item] == getString(R.string.take_photo) -> {
                             val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                             if (takePictureIntent.resolveActivity(packageManager) != null) {
                                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
                             }
                         }
 
-                        options[item] == "Choose from Gallery" -> {
+                        options[item] == getString(R.string.choose_from_gallery) -> {
                             val intent = Intent()
                             intent.type = "image/*"
                             intent.action = Intent.ACTION_GET_CONTENT
                             startActivityForResult(
-                                Intent.createChooser(intent, "Select Picture"),
+                                Intent.createChooser(intent, getString(R.string.select_picture)),
                                 PICK_IMAGE_REQUEST
                             )
                         }
 
-                        options[item] == "Cancel" -> {
+                        options[item] == getString(R.string.cancel) -> {
                             dialog.dismiss()
                         }
                     }
@@ -176,19 +174,20 @@ class ProfileActivity : AppCompatActivity() {
                 builder.show()
             }
 
-            @OptIn(ExperimentalEncodingApi::class)
+            @SuppressLint("CommitPrefEdits")
             fun saveImageToSharedPreferences(context: Context, bitmap: Bitmap) {
                 val editor = context.getSharedPreferences(Const.MY_PREF, Context.MODE_PRIVATE).edit()
                 val byteArrayOutputStream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
                 val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
                 val encodedImage: String = Base64.encodeToString(byteArray, Base64.DEFAULT)
-                editor.putString("image", encodedImage)
+                editor.putString(Const.IMAGE, encodedImage)
+                editor.apply()
             }
 
     private fun saveImageToInternalStorage(bitmap: Bitmap): String {
         val wrapper = ContextWrapper(applicationContext)
-        var file = wrapper.getDir("images", Context.MODE_PRIVATE)
+        var file = wrapper.getDir(getString(R.string.images), Context.MODE_PRIVATE)
         file = File(file, "${UUID.randomUUID()}.jpg")
 
         try {
@@ -203,6 +202,7 @@ class ProfileActivity : AppCompatActivity() {
         return file.absolutePath
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {

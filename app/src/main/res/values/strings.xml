@@ -23,4 +23,18 @@
     <string name="exit">Вийти</string>
     <string name="menegment">Менеджмент</string>
     <string name="change">Змінити</string>
+    <string name="images">images</string>
+    <string name="cancel">Cancel</string>
+    <string name="select_picture">Select Picture</string>
+    <string name="choose_from_gallery">Choose from Gallery</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="add_photo">Add Photo!</string>
+    <string name="take_photo_">Take Photo</string>
+    <string name="choose_from_gallery_">Choose from Gallery</string>
+    <string name="cancel_">Cancel</string>
+    <string name="add_manager">Додати</string>
+    <string name="close">Повернутись</string>
+    <string name="size">Площа</string>
+    <string name="month">Місяць саджання</string>
+    <string name="name_of_seed">Назва насіння</string>
 </resources>
